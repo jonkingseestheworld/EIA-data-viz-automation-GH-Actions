@@ -7,6 +7,7 @@ format: dashboard
 ```{r}
 library(dplyr)
 library(plotly)
+library(lubridate)
 
 ```
 
@@ -21,6 +22,10 @@ data <- readr::read_csv(file = data_path, col_types = readr::cols(
     value = readr::col_double(),
     value_units = readr::col_character()
 ))
+
+# Calculate the date range for the most recent month
+max_date <- max(data$period, na.rm = TRUE)
+min_date <- max_date %m-% months(1)
 
 ```
 
@@ -38,7 +43,15 @@ p <- plot_ly(
     data = data,
     x = ~period,
     y = ~value,
-    color = ~subba
+    color = ~subba,
+    type = 'scatter',
+    mode = 'lines'
+) %>% layout(
+    xaxis = list(
+        title = "Date",
+        range = c(min_date, max_date)
+    ),
+    yaxis = list(title = "Hourly Demand")
 )
 
 p
