@@ -14,8 +14,16 @@ echo "Finish"
 p=$(pwd)
 git config --global --add safe.directory $p
 
+#Check for changes and commit if any
 if [[ "$(git status --porcelain)" != "" ]]; then
+    #Render index dashboard (assumes index.qmd uses R or Rmd code chunks)
     quarto render R/index.qmd
+    cp R/index.html docs/index.html
+    rm -rf docs/index_files
+    cp -R R/index_files/ docs/
+    rm R/index.html
+    rm -rf R/index_files
+    
     git config --global user.name $USER_NAME
     git config --global user.email $USER_EMAIL
     git add csv/*
