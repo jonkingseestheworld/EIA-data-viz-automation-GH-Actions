@@ -12,7 +12,7 @@ library(lubridate)
 ```
 
 ```{r}
-data_path <- "../csv/ciso_grid_R.csv"
+data_path <- "../metadata/ciso_grid_R.csv"
 data <- readr::read_csv(file = data_path, col_types = readr::cols(
     period = readr::col_datetime(format = ""),
     subba = readr::col_character(),
